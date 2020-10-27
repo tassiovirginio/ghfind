@@ -47,7 +47,7 @@ public class HomePage extends WebPage {
 
         repositoryList = new ArrayList<>();
 
-        token = "4fe22c460bbe77da3a19fc777cb7e31e3836e548";
+        token = "";
         language = "java";
         stars = "100";
         forks = "10";
@@ -227,49 +227,6 @@ public class HomePage extends WebPage {
             e.printStackTrace();
         }
 
-    }
-
-    public static void main(String[] args) {
-        try {
-
-            GitHub github = new GitHubBuilder().withOAuthToken("4fe22c460bbe77da3a19fc777cb7e31e3836e548").build();
-//			GitHub gitHub = GitHub.connectAnonymously();
-
-//			GHRepositorySearchBuilder ghRepositorySearchBuilder = github.searchRepositories();
-//			ghRepositorySearchBuilder.language("java");
-//			ghRepositorySearchBuilder.stars("700");
-//			ghRepositorySearchBuilder.forks("400");
-//			PagedIterable<GHRepository> lista = ghRepositorySearchBuilder.list();
-
-            List<GHRepository> lista = new ArrayList<>();
-
-            try {
-                GHRepository repo = github.getRepository("apache/commons-io");
-                lista.add(repo);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            for (GHRepository ghRepository : lista) {
-                System.out.println("pesquisando: " + ghRepository.getSshUrl());
-
-                try {
-                    GHContent ghContentPOM = ghRepository.getFileContent("pom.xml");
-                    List<GHContent> listGHContent = ghRepository.getDirectoryContent("src/test");
-                    Boolean quantidadeStrelas = ghRepository.getStargazersCount() > 100;
-                    Boolean quantidadesTags = ghRepository.listTags().toList().size() > 1;
-                    Boolean dataUpdate = ghRepository.getUpdatedAt().getYear() > 2019;
-
-                    if (ghContentPOM.isFile() && listGHContent.size() > 0 && quantidadeStrelas && quantidadesTags && dataUpdate) {
-                        System.out.println(ghRepository.getSshUrl());
-                    }
-                } catch (FileNotFoundException e) {
-                    System.out.println(ghRepository.getSshUrl() + " - não é Mavem");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     class Repositorio implements Serializable {
