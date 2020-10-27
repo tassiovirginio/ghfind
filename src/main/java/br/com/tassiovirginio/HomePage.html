@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Apache Wicket Quickstart</title>
+    <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold' rel='stylesheet'
+          type='text/css'/>
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet"/>
+</head>
+<body>
+<div id="bd">
+    <h2>GitHub Search</h2>
+    <br>
+    <form wicket:id="fom">
+        token: <input type="text" wicket:id="token"/><br>
+        language: <input type="text" wicket:id="language"/><br>
+        stars: <input type="text" wicket:id="stars"/><br>
+        tags: <input type="text" wicket:id="tags"/><br>
+        forks: <input type="text" wicket:id="forks"/><br>
+        Year: <input type="text" wicket:id="year"/><br>
+        FileContent: <input type="text" wicket:id="fileContent"/><br>
+        DirectoryContent: <input type="text" wicket:id="directoryContent"/><br>
+        <input wicket:id="btSubmit" type="submit" value="Play"/>
+        <input wicket:id="btStop" value="Stop" type="submit"/>
+    </form>
+</div>
+
+<br>
+<br>
+
+<div wicket:id="container">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>FullName</th>
+            <th>HomePage</th>
+        </tr>
+        <tr wicket:id="listview">
+            <td wicket:id="name"></td>
+            <td wicket:id="fullName"></td>
+            <td wicket:id="homePage"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
