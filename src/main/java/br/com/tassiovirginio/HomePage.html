@@ -8,40 +8,140 @@
     <link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet"/>
 </head>
 <body>
-<div id="bd">
-    <h2>GitHub Search</h2>
-    <br>
-    <form wicket:id="fom">
-        token: <input type="text" wicket:id="token"/><br>
-        language: <input type="text" wicket:id="language"/><br>
-        stars: <input type="text" wicket:id="stars"/><br>
-        tags: <input type="text" wicket:id="tags"/><br>
-        forks: <input type="text" wicket:id="forks"/><br>
-        Year: <input type="text" wicket:id="year"/><br>
-        FileContent: <input type="text" wicket:id="fileContent"/><br>
-        DirectoryContent: <input type="text" wicket:id="directoryContent"/><br>
-        <input wicket:id="btSubmit" type="submit" value="Play"/>
-        <input wicket:id="btStop" value="Stop" type="submit"/>
-    </form>
-</div>
 
-<br>
-<br>
+<header>
+    <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4 class="text-white">Sobre</h4>
+                    <p class="text-muted">
+                        Sistema de busca no Github. Desenvolvido para ajudar as pesquisas de projetos com linguagens
+                        e critérios específicos.
+                    </p>
+                </div>
+                <div class="col-sm-4 offset-md-1 py-4">
+                    <h4 class="text-white">Contact</h4>
+                    <ul class="list-unstyled">
+                        <li><a target="_blank" href="https://twitter.com/tassiovirginio" class="text-white">Follow on Twitter</a></li>
+                        <li><a target="_blank" href="http://tassiovirginio.com/" class="text-white">My Site</a></li>
+                        <li><a target="_blank" href="email:tassiovirginio@gmail.com" class="text-white">Email me</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                    <path fill-rule="evenodd"
+                          d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                </svg>
+                <strong>&nbsp;&nbsp;GitHub Search</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
 
-<div wicket:id="container">
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>FullName</th>
-            <th>HomePage</th>
-        </tr>
-        <tr wicket:id="listview">
-            <td wicket:id="name"></td>
-            <td wicket:id="fullName"></td>
-            <td wicket:id="homePage"></td>
-        </tr>
-    </table>
-</div>
+<main role="main">
+
+    <section class="jumbotron">
+        <div class="container">
+
+            <br>
+            <form wicket:id="fom">
+                <div class="form-group row">
+                    <label for="token" class="col-sm-2 col-form-label col-form-label-sm">Token</label>
+                    <div class="col-sm-10">
+                        <input id="token" class="form-control form-control-sm" type="text" wicket:id="token"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="language" class="col-sm-2 col-form-label col-form-label-sm">Language</label>
+                    <div class="col-sm-10">
+                        <input id="language" class="form-control form-control-sm" type="text" wicket:id="language"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="stars" class="col-sm-2 col-form-label col-form-label-sm">Stars</label>
+                    <div class="col-sm-10">
+                        <input id="stars" class="form-control form-control-sm" type="text" wicket:id="stars"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tags" class="col-sm-2 col-form-label col-form-label-sm">Tags</label>
+                    <div class="col-sm-10">
+                        <input id="tags" class="form-control form-control-sm" type="text" wicket:id="tags"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="forks" class="col-sm-2 col-form-label col-form-label-sm">Forks</label>
+                    <div class="col-sm-10">
+                        <input id="forks" class="form-control form-control-sm" type="text" wicket:id="forks"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="year" class="col-sm-2 col-form-label col-form-label-sm">Year</label>
+                    <div class="col-sm-10">
+                        <input id="year" class="form-control form-control-sm" type="text" wicket:id="year"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="fileContent" class="col-sm-2 col-form-label col-form-label-sm">FileContent</label>
+                    <div class="col-sm-10">
+                        <input id="fileContent" class="form-control form-control-sm" type="text" wicket:id="fileContent"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="directoryContent" class="col-sm-2 col-form-label col-form-label-sm">DirectoryContent</label>
+                    <div class="col-sm-10">
+                        <input id="directoryContent" class="form-control form-control-sm" type="text" wicket:id="directoryContent"/>
+                    </div>
+                </div>
+                <input class="btn btn-primary" wicket:id="btSubmit" type="submit" value="Play"/>
+                <input class="btn btn-primary" wicket:id="btStop" value="Stop" type="submit"/>
+            </form>
+
+
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="table-responsive">
+                <div  wicket:id="container">
+                    <table class="table table-striped table-bordered table-hover table-sm">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">FullName</th>
+                            <th scope="col">HomePage</th>
+                            <th scope="col">URL</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr wicket:id="listview">
+                            <td scope="row" wicket:id="name"></td>
+                            <td wicket:id="fullName"></td>
+                            <td wicket:id="homePage"></td>
+                            <td wicket:id="giturl"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
 
 </body>
 </html>

@@ -112,6 +112,7 @@ public class HomePage extends WebPage {
                 item.add(new Label("name", repository.getName()));
                 item.add(new Label("homePage", repository.getUrl()));
                 item.add(new Label("fullName", repository.getFullname()));
+                item.add(new Label("giturl", repository.getGitUrl()));
             }
         };
 
@@ -218,6 +219,7 @@ public class HomePage extends WebPage {
                         repositorio.setFullname(ghRepository.getFullName());
                         repositorio.setName(ghRepository.getName());
                         repositorio.setUrl(ghRepository.getHomepage());
+                        repositorio.setGitUrl(ghRepository.getHttpTransportUrl());
                         listview.getList().add(repositorio);
                     }
                 }
@@ -234,6 +236,15 @@ public class HomePage extends WebPage {
         private String name;
         private String fullname;
         private String url;
+        private String gitUrl;
+
+        public String getGitUrl() {
+            return gitUrl;
+        }
+
+        public void setGitUrl(String gitUrl) {
+            this.gitUrl = gitUrl;
+        }
 
         public String getName() {
             return name;
