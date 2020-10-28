@@ -43,7 +43,13 @@ public class HomePage extends WebPage {
     private AjaxButton btSubmit;
     private AjaxButton btStop;
 
+    private int contEncontrados;
+    private int contPesquisados;
+
     public HomePage() {
+
+        contEncontrados = 0;
+        contPesquisados = 0;
 
         repositoryList = new ArrayList<>();
 
@@ -103,8 +109,21 @@ public class HomePage extends WebPage {
         };
         btStop.setEnabled(false);
         form.add(btStop);
-
         add(form);
+
+        Label pjEncontrados = new Label("pjEncontrados",PropertyModel.of(this, "contEncontrados"));
+        pjEncontrados.setOutputMarkupId(true);
+
+        Label pjPesquisados = new Label("pjPesquisados",PropertyModel.of(this, "contPesquisados"));
+        pjPesquisados.setOutputMarkupId(true);
+
+        WebMarkupContainer containerInfo = new WebMarkupContainer("containerInfo");
+        containerInfo.setOutputMarkupId(true);
+        containerInfo.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(1)));
+        containerInfo.add(pjEncontrados);
+        containerInfo.add(pjPesquisados);
+        add(containerInfo);
+
 
         listview = new ListView<Repositorio>("listview", repositoryList) {
             protected void populateItem(ListItem<Repositorio> item) {
@@ -152,6 +171,9 @@ public class HomePage extends WebPage {
 
             for (GHRepository ghRepository : lista) {
                 if(stopProcess)break;
+
+                contPesquisados++;
+
                 System.out.print("\npesquisando: " + ghRepository.getSshUrl());
 
                 Boolean contentPOM = true;
@@ -221,6 +243,7 @@ public class HomePage extends WebPage {
                         repositorio.setUrl(ghRepository.getHomepage());
                         repositorio.setGitUrl(ghRepository.getHttpTransportUrl());
                         listview.getList().add(repositorio);
+                        contEncontrados++;
                     }
                 }
             }
