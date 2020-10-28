@@ -16,6 +16,7 @@ import org.kohsuke.github.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +29,7 @@ public class HomePage extends WebPage {
     private String language;
     private String stars;
     private String forks;
-    private String tags;
+//    private String tags;
     private String year;
     private String fileContent;
     private String directoryContent;
@@ -55,9 +56,9 @@ public class HomePage extends WebPage {
 
         token = "";
         language = "java";
-        stars = "100";
-        forks = "10";
-        tags = "";
+        stars = ">100";
+        forks = ">10";
+//        tags = "";
         year = "2009";
         fileContent = "pom.xml";
         directoryContent = "src/test";
@@ -73,7 +74,7 @@ public class HomePage extends WebPage {
         form.add(new TextField<String>("language", PropertyModel.of(this, "language")));
         form.add(new TextField<String>("stars", PropertyModel.of(this, "stars")));
         form.add(new TextField<String>("forks", PropertyModel.of(this, "forks")));
-        form.add(new TextField<String>("tags", PropertyModel.of(this, "tags")));
+//        form.add(new TextField<String>("tags", PropertyModel.of(this, "tags")));
         form.add(new TextField<String>("year", PropertyModel.of(this, "year")));
 
         form.add(new TextField<String>("fileContent", PropertyModel.of(this, "fileContent")));
@@ -129,9 +130,13 @@ public class HomePage extends WebPage {
             protected void populateItem(ListItem<Repositorio> item) {
                 Repositorio repository = item.getModelObject();
                 item.add(new Label("name", repository.getName()));
-                item.add(new Label("homePage", repository.getUrl()));
-                item.add(new Label("fullName", repository.getFullname()));
+//                item.add(new Label("homePage", repository.getUrl()));
+//                item.add(new Label("fullName", repository.getFullname()));
                 item.add(new Label("giturl", repository.getGitUrl()));
+                item.add(new Label("dateUpdate", repository.getDateUpdate()));
+                item.add(new Label("watches", repository.getWatches()));
+                item.add(new Label("forks", repository.getForks()));
+                item.add(new Label("stars", repository.getStars()));
             }
         };
 
@@ -159,15 +164,17 @@ public class HomePage extends WebPage {
                 ghRepositorySearchBuilder.language(language);
 
             if (stars != null)
-                ghRepositorySearchBuilder.stars(">" + stars);
+                ghRepositorySearchBuilder.stars(stars);
 
             if (forks != null)
-                ghRepositorySearchBuilder.forks(">" + forks);
+                ghRepositorySearchBuilder.forks(forks);
 
             ghRepositorySearchBuilder.order(GHDirection.DESC);
             ghRepositorySearchBuilder.sort(GHRepositorySearchBuilder.Sort.STARS);
 
             PagedIterable<GHRepository> lista = ghRepositorySearchBuilder.list();
+
+            lista.withPageSize(100);
 
             for (GHRepository ghRepository : lista) {
                 if(stopProcess)break;
@@ -177,6 +184,8 @@ public class HomePage extends WebPage {
                 System.out.print("\npesquisando: " + ghRepository.getSshUrl());
 
                 Boolean contentPOM = true;
+
+//                ghRepository.listLanguages().containsValue("Java");
 
                 if (fileContent != null) {
                     try {
@@ -215,18 +224,18 @@ public class HomePage extends WebPage {
                     }
                 }
 
-                Boolean quantidadeStrelas = true;
-                Boolean quantidadesTags = true;
+//                Boolean quantidadeStrelas = true;
+//                Boolean quantidadesTags = true;
                 Boolean dataUpdate = true;
 
 
-                if (stars != null) {
-                    quantidadeStrelas = (ghRepository.getStargazersCount() >= Integer.parseInt(stars));
-                }
+//                if (stars != null) {
+//                    quantidadeStrelas = (ghRepository.getStargazersCount() >= Integer.parseInt(stars));
+//                }
 
-                if (tags != null) {
-                    quantidadesTags = ghRepository.listTags().toList().size() > Integer.parseInt(tags);
-                }
+//                if (tags != null) {
+//                    quantidadesTags = ghRepository.listTags() listTags().toList().size() > Integer.parseInt(tags);
+//                }
 
                 if (year != null) {
                     Calendar calendar = Calendar.getInstance();
@@ -235,13 +244,20 @@ public class HomePage extends WebPage {
                 }
 
                 if (contentPOM && contentFolderTest) {
-                    if (quantidadeStrelas && quantidadesTags && dataUpdate) {
+                    if (dataUpdate) {
                         System.out.println(" - ###########  ENCONTRADO ###########");
                         Repositorio repositorio = new Repositorio();
                         repositorio.setFullname(ghRepository.getFullName());
                         repositorio.setName(ghRepository.getName());
                         repositorio.setUrl(ghRepository.getHomepage());
                         repositorio.setGitUrl(ghRepository.getHttpTransportUrl());
+
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        repositorio.setDateUpdate(simpleDateFormat.format(ghRepository.getUpdatedAt()));
+                        repositorio.setStars(ghRepository.getStargazersCount()+"");
+                        repositorio.setForks(ghRepository.getForksCount()+"");
+                        repositorio.setWatches(ghRepository.getWatchersCount()+"");
+
                         listview.getList().add(repositorio);
                         contEncontrados++;
                     }
@@ -260,6 +276,42 @@ public class HomePage extends WebPage {
         private String fullname;
         private String url;
         private String gitUrl;
+        private String dateUpdate;
+        private String stars;
+        private String forks;
+        private String watches;
+
+        public String getWatches() {
+            return watches;
+        }
+
+        public void setWatches(String watches) {
+            this.watches = watches;
+        }
+
+        public String getForks() {
+            return forks;
+        }
+
+        public void setForks(String forks) {
+            this.forks = forks;
+        }
+
+        public String getDateUpdate() {
+            return dateUpdate;
+        }
+
+        public void setDateUpdate(String dateUpdate) {
+            this.dateUpdate = dateUpdate;
+        }
+
+        public String getStars() {
+            return stars;
+        }
+
+        public void setStars(String stars) {
+            this.stars = stars;
+        }
 
         public String getGitUrl() {
             return gitUrl;
