@@ -103,6 +103,22 @@
                                wicket:id="directoryContent"/>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="timeBetweenPolls"
+                           class="col-sm-2 col-form-label col-form-label-sm">Time Between Polls</label>
+                    <div class="col-sm-10">
+                        <input id="timeBetweenPolls" class="form-control form-control-sm" type="text"
+                               wicket:id="timeBetweenPolls"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="maxResults"
+                           class="col-sm-2 col-form-label col-form-label-sm">Max Results</label>
+                    <div class="col-sm-10">
+                        <input id="maxResults" class="form-control form-control-sm" type="text"
+                               wicket:id="maxResults"/>
+                    </div>
+                </div>
                 <input class="btn btn-primary" wicket:id="btSubmit" type="submit" value="Play"/>
                 <input class="btn btn-danger" wicket:id="btStop" value="Stop" type="submit"/>
             </form>

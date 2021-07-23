@@ -33,6 +33,8 @@ public class HomePage extends WebPage {
     private String year;
     private String fileContent;
     private String directoryContent;
+    private String timeBetweenPolls;
+
     private ListView<Repositorio> listview;
 
     private List<Repositorio> repositoryList;
@@ -46,6 +48,7 @@ public class HomePage extends WebPage {
 
     private int contEncontrados;
     private int contPesquisados;
+    private int maxResults;
 
     public HomePage() {
 
@@ -63,6 +66,9 @@ public class HomePage extends WebPage {
         fileContent = "pom.xml";
         directoryContent = "src/test";
 
+        timeBetweenPolls = "3000";
+        maxResults = 10;
+
         Form form = new Form<Void>("fom") {
             @Override
             protected void onSubmit() {
@@ -79,6 +85,9 @@ public class HomePage extends WebPage {
 
         form.add(new TextField<String>("fileContent", PropertyModel.of(this, "fileContent")));
         form.add(new TextField<String>("directoryContent", PropertyModel.of(this, "directoryContent")));
+
+        form.add(new TextField<String>("timeBetweenPolls", PropertyModel.of(this, "timeBetweenPolls")));
+        form.add(new TextField<String>("maxResults", PropertyModel.of(this, "maxResults")));
 
         btSubmit = new AjaxButton("btSubmit") {
             @Override
@@ -176,6 +185,8 @@ public class HomePage extends WebPage {
 
             lista.withPageSize(100);
 
+            int contResult = 0;
+
             for (GHRepository ghRepository : lista) {
                 if(stopProcess)break;
 
@@ -262,6 +273,15 @@ public class HomePage extends WebPage {
                         contEncontrados++;
                     }
                 }
+                
+                if(maxResults == contEncontrados)stopProcess = true;
+
+                try {
+                    Thread.sleep(Integer.parseInt(timeBetweenPolls));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
 
         } catch (IOException e) {
